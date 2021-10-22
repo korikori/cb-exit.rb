@@ -5,13 +5,17 @@ class ButtonWindow < Gtk::Window
     super
     set_title 'Log out? Choose an option:'
     set_border_width 15
-    set_default_size 500, 80
+    set_default_size 500, 60
     set_window_position Gtk::WindowPosition::CENTER
 
     hbox = Gtk::ButtonBox.new(:horizontal)
     add(hbox)
 
-    button = Gtk::Button.new(label: 'Log out')
+    button = Gtk::Button.new(label: 'Cancel')
+    button.signal_connect('clicked') { on_cancel_clicked }
+    hbox.pack_start(button)
+
+    button = Gtk::Button.new(mnemonic: '_Log out')
     button.signal_connect('clicked') { on_log_out_clicked }
     hbox.pack_start(button)
 
@@ -28,6 +32,10 @@ class ButtonWindow < Gtk::Window
     hbox.pack_start(button)
   end
 
+  def on_cancel_clicked
+    self.destroy
+  end  
+  
   def on_log_out_clicked
     self.set_title 'Exiting Openbox, please standby...'
     self.set_sensitive(false)
